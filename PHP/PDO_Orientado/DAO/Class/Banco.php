@@ -13,13 +13,13 @@
         }
 
         //metodo que seta N parametros
-        private function setParams($statment, $parameters = array()){
+        private function setParams($statement, $parameters = array()){
 
-            //recebe os parametros do metodo e percorre passando para a variavel statment
+            //recebe os parametros do metodo e percorre passando para a variavel statement
             foreach ($parameters as $key => $value) {
                 
                 //aqui é chamado o metodo que seta apenas 1 parametro, sendo assim o foreach usa o outro metodo em vez de ter que reescrever aqui.
-                $this->setParam($key, $value);
+                $this->setParam($statement, $key, $value);
 
             }
 
@@ -28,9 +28,9 @@
 
         //metodo que seta apenas 1 parametro
         //neste caso como é apenas 1 parametro a chave e o valor já são passados como parametros do proprio metodo.
-        private function setParam($statment, $key, $value){
+        private function setParam($statement, $key, $value){
 
-            $statment->bindParam($key, $value);
+            $statement->bindParam($key, $value);
 
         }
 
