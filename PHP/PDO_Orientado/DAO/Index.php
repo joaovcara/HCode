@@ -60,11 +60,26 @@
     //----------------------------------------------------------------------------------------//
     // //UPDATE USUARIO
 
+    // $usuario = new Usuario();
+    // $usuario->loadById(9);
+
+    // $usuario->update("talita", "talita");
+
+    // echo $usuario;
+
+    //----------------------------------------------------------------------------------------//
+    // //DELETE USUARIO
+
+    //instancio o a classe Usuario
     $usuario = new Usuario();
-    $usuario->loadById(9);
 
-    $usuario->update("talita", "talita");
+    //Carrego um usuario usando o metodo loadById da classe Usuario
+    $usuario->loadById(6);
+    
+    //deleto o usuario carregado usando o metodo delete da classe Usuario
+    $usuario->delete();
 
+    //imprimo na tela o resultado gerado pelo metodo delete
     echo $usuario;
 
 ?>

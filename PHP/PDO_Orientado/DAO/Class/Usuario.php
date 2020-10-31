@@ -191,6 +191,28 @@
 
         }
 
+        //metodo deleta usuario
+        public function delete(){
+
+            $sql = new Banco();
+
+            $sql->query("DELETE FROM Usuarios WHERE IdUsuario = :ID", array(
+                ":ID"=>$this->getIdUsuario()
+            ));
+
+            $this->limpaDados();
+
+        }
+
+        //metodo limpa campos
+        public function limpaDados(){
+
+            $this->setIdUsuario("");
+            $this->setLogin("");
+            $this->setSenha("");
+            $this->setDataCadastro(new DateTime()); //passando a data atual para o campo
+
+        }
     }
 
 
