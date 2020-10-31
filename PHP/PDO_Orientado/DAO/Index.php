@@ -24,14 +24,14 @@
     //----------------------------------------------------------------------------------------//
     // //Lista todos os usuários
 
-    // //sintaxe para chamar um método de classe diretamente
+    // //sintaxe para chamar um método de classe diretamente sem instanciar a classe (metodo precisa ser static)
     // $lista = Usuario::listaUsuarios();
 
 
     // echo json_encode($lista);
 
     //----------------------------------------------------------------------------------------//
-    // //Lista usuarios por busca de descricao
+    // //Lista usuarios por busca de descricao (login)
 
     // $busca = Usuario::buscaUsuarios("j");
 
@@ -51,10 +51,20 @@
     //----------------------------------------------------------------------------------------//
     // //INSERT USUARIO
 
-    $aluno = new Usuario("aluno","aluno");
+    // $aluno = new Usuario("aluno","aluno");
 
-    $aluno->insert();
+    // $aluno->insert();
 
-    echo $aluno;
+    // echo $aluno;
+
+    //----------------------------------------------------------------------------------------//
+    // //UPDATE USUARIO
+
+    $usuario = new Usuario();
+    $usuario->loadById(9);
+
+    $usuario->update("talita", "talita");
+
+    echo $usuario;
 
 ?>

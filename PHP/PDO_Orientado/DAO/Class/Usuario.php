@@ -40,6 +40,9 @@
             //verifica se retornou algum valor
             if(count($resultado) > 0){
 
+                /***ESTAS LINHAS DE CÓDIGO DENTRO DESTE IF FORAM SUBSTITUIDAS NOS MÉTODOS SEGUINTES */
+                /***FOI CRIADO O MÉTODO setData */
+
                 //se retornado, o valor é atribuido para a variavel $row
                 $row = $resultado[0];
 
@@ -72,8 +75,10 @@
         //static - classe não precisa ser instanciada, o metodo pode ser chamado diretamente
         public static function listaUsuarios(){
 
+            //instancia a classe do banco
             $sql = new Banco();
 
+            //retorna o select 
             return $sql->select("SELECT * FROM Usuarios ORDER BY Login ASC");
 
         }
@@ -84,7 +89,7 @@
             $sql = new Banco();
 
             return $sql->select("SELECT * FROM Usuarios WHERE Login LIKE :TEXTO", array(
-                ':TEXTO'=>"%".$login."%"
+                ":TEXTO"=>"%".$login."%"
             ));
 
         }
@@ -94,43 +99,59 @@
 
             $sql = new Banco();
 
+            //select utilizando o metodo select da classe Banco, e no where passa os parametros que devem ser pesquisados
             $resultado = $sql->select("SELECT * FROM Usuarios WHERE Login = :LOGIN AND Senha = :SENHA", array(
                 ":LOGIN"=>$login,
                 ":SENHA"=>$senha
             ));
 
+            //se trouxer os resultados
             if(count($resultado) > 0){
 
+                //seta os dados para os atributos através do metodo setData
                 $this->setData($resultado[0]);
 
             } else {
 
+                //estoura excessão acusando que está inválido
                 throw new Exception("Login e/ou senha inválidos");
 
             }
 
         }
 
-        //Função de INSERT
+        //metodo de INSERT de usuário
         public function insert(){
 
+            //instancia da classe Banco
             $sql = new Banco();
 
+            //execução da procedure que foi criada no banco de dados
+            //CALL -> chama procedure sp_Usuarios_Insert e passa os parametros :LOGIN, :SENHA
+            //dentro da procedure estão os comandos de insert e o select que trará o resultado 
+            //e será armazenado na variável $resultado
             $resultado = $sql->select("CALL sp_Usuarios_Insert(:LOGIN, :SENHA)", array(
                 ":LOGIN"=>$this->getLogin(),
                 ":SENHA"=>$this->getSenha()
             ));
 
+            //se trouxer algum resultado
             if(count($resultado) > 0 ){
 
+                //seta os dados para os atributos através do metodo setData
                 $this->setData($resultado[0]);
 
             }
 
         }
 
+        //função que seta os dados para os atributos da classe
         public function setData($data){
 
+            //setando os dados para os atributos da classe
+            //passando dados para os set's 
+            //$row = linha
+            //['IdUsuario'] = nome da coluna da tabela
             $this->setIdUsuario($data['IdUsuario']);
             $this->setLogin($data['Login']);
             $this->setSenha($data['Senha']);
@@ -138,10 +159,35 @@
 
         }
 
+        //metodo construtor que pode receber automaticamente login e senha quando a classe for instanciada
+        //a passagem dos parametros ($login = "", $senha = "") passa-se (= "") porque não torna obrigatória a passagem
+        //sendo assim se não for passado parametro na instanciação da classe Usuario será passado "" (vazio)
         public function __construct($login = "", $senha = ""){
 
             $this->setLogin($login);
             $this->setSenha($senha);
+
+        }
+
+        //metodo update usuario
+        public function update($login, $senha){  //no update passa-se nos parametros as variaveis dos campos da tabela que podem ser alterados
+
+            //setando os valores recebidos no update para os atributos da classe usuário
+            $this->setLogin($login);
+            $this->setSenha($senha);
+
+            //instanciação da classe
+            $sql = new Banco();
+
+            //execução da query através do metodo query que pertence a classe Banco.
+            $sql->query("UPDATE Usuarios SET Login = :LOGIN, Senha = :LOGIN WHERE IdUsuario = :ID", array(
+
+                //na passagem dos parametros para a query pegamos os valores já nos atributos pois foram 
+                //preenchidos acima quando receberam os parametros do metodo update
+                ":LOGIN"=>$this->getLogin(),
+                ":SENHA"=>$this->getSenha(),
+                ":ID"=>$this->getIdUsuario()
+            ));
 
         }
 
