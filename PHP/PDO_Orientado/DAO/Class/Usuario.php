@@ -20,7 +20,7 @@
         public function setDataCadastro($value){ $this->DataCadastro = $value; }
 
 
-        public function loadById($Id){
+        public function loadById($id){
 
             //Instancio dentro do metodo a conexao e crio o objeto
             $sql = new Banco();
@@ -30,7 +30,7 @@
             //o segundo parametro do metodo 'select' são os parametros da função que serão atribuidos a consulta
             $resultado = $sql->select("SELECT * FROM Usuarios WHERE IdUsuario = :ID ", array(
                 
-                ":ID"=>$Id
+                ":ID"=>$id
 
             ));
 
@@ -52,19 +52,67 @@
 
         }
 
+        //metodo para retornar json 
         public function __toString(){
 
             return json_encode(array(
 
-                "Idusuario"=>$this->getIdUsuario(),
+                "IdUsuario"=>$this->getIdUsuario(),
                 "Login"=>$this->getLogin(),
                 "Senha"=>$this->getSenha(),
-                "DataCadastro"=>$this->getDataCadastro()->format("d/m/Y")
+                "DataCadastro"=>$this->getDataCadastro()  //->format('Y-m-d H:i:s')  A FORMATAÇÃO DE DATA NÃO FUNCIONOU NESSE FORMATO.
 
             ));
 
         }
 
+        //metodo para listar usuarios
+        //static - classe não precisa ser instanciada, o metodo pode ser chamado diretamente
+        public static function listaUsuarios(){
+
+            $sql = new Banco();
+
+            return $sql->select("SELECT * FROM Usuarios ORDER BY Login ASC");
+
+        }
+
+        //metodo lista usuario por busca pelo login(pesquisa com parâmetro de texto)
+        public static function buscaUsuarios($login){
+
+            $sql = new Banco();
+
+            return $sql->select("SELECT * FROM Usuarios WHERE Login LIKE :TEXTO", array(
+                ':TEXTO'=>"%".$login."%"
+            ));
+
+        }
+
+        //Obtendo dados autenticados utilizando login e senha para fazer a autenticação
+        public function login($login, $senha){
+
+            $sql = new Banco();
+
+            $resultado = $sql->select("SELECT * FROM Usuarios WHERE Login = :LOGIN AND Senha = :SENHA", array(
+                ":LOGIN"=>$login,
+                ":SENHA"=>$senha
+            ));
+
+            if(count($resultado) > 0){
+
+                $row = $resultado[0];
+
+                $this->setIdUsuario($row['IdUsuario']);
+                $this->setLogin($row['Login']);
+                $this->setSenha($row['Senha']);
+                $this->setDataCadastro($row['DataCadastro']);
+
+            } else {
+
+                throw new Exception("Login e/ou senha inválidos");
+
+            }
+
+        }
 
     }
 

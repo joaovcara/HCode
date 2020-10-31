@@ -12,12 +12,38 @@
     // echo json_encode($usuarios);
 
 
+    //----------------------------------------------------------------------------------------//
+    //Listando 1 usuario por ID
+    // $user = new Usuario();
+    // $user->loadById(1);
+
+    // echo $user;
+
+    
+    //----------------------------------------------------------------------------------------//
+    // //Lista todos os usuários
+
+    // //sintaxe para chamar um método de classe diretamente
+    // $lista = Usuario::listaUsuarios();
+
+    // echo json_encode($lista);
+
+    //----------------------------------------------------------------------------------------//
+    // //Lista usuarios por busca de descricao
+
+    // $busca = Usuario::buscaUsuarios("j");
+
+    // echo json_encode($busca);
+
+
+    //----------------------------------------------------------------------------------------//
+    // //Carrega um usuário validando login e senha
+
     $user = new Usuario();
 
-    $user->loadById(1);
+    $user->Login("joao", "joao");
 
     echo $user;
-
 
 
 ?>
