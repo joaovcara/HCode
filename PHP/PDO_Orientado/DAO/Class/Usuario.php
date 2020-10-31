@@ -22,7 +22,7 @@
         public function setDataCadastro($value){ $this->DataCadastro = $value; }
 
 
-        //metodo load ultimo ID
+        //metodo carrega usuario pelo ID recebe como parametro o $id
         public function loadById($id){
 
             //Instancio dentro do metodo a conexao e crio o objeto
@@ -63,8 +63,7 @@
                 "IdUsuario"=>$this->getIdUsuario(),
                 "Login"=>$this->getLogin(),
                 "Senha"=>$this->getSenha(),
-                "DataCadastro"=>$this->getDataCadastro()  //->format('Y-m-d H:i:s')  A FORMATAÇÃO DE DATA NÃO FUNCIONOU NESSE FORMATO.
-
+                "DataCadastro"=>$this->getDataCadastro()->format("d/m/Y H:i:s") 
             ));
 
         }
