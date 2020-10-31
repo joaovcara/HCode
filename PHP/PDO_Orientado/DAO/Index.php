@@ -20,11 +20,13 @@
     // echo $user;
 
     
+    
     //----------------------------------------------------------------------------------------//
     // //Lista todos os usuários
 
     // //sintaxe para chamar um método de classe diretamente
     // $lista = Usuario::listaUsuarios();
+
 
     // echo json_encode($lista);
 
@@ -36,14 +38,23 @@
     // echo json_encode($busca);
 
 
+
     //----------------------------------------------------------------------------------------//
     // //Carrega um usuário validando login e senha
 
-    $user = new Usuario();
+    // $user = new Usuario();
 
-    $user->Login("joao", "joao");
+    // $user->Login("joao", "joao");
 
-    echo $user;
+    // echo $user;
 
+    //----------------------------------------------------------------------------------------//
+    // //INSERT USUARIO
+
+    $aluno = new Usuario("aluno","aluno");
+
+    $aluno->insert();
+
+    echo $aluno;
 
 ?>

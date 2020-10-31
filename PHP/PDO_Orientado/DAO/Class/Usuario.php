@@ -2,11 +2,13 @@
 
     class Usuario {
 
+        //Atributos
         private $IdUsuario;
         private $Login;
         private $Senha;
         private $DataCadastro;
 
+        //metodos get, set
         public function getIdUsuario(){ return $this->IdUsuario; }
         public function setIdUsuario($value){ $this->IdUsuario = $value; }
 
@@ -20,6 +22,7 @@
         public function setDataCadastro($value){ $this->DataCadastro = $value; }
 
 
+        //metodo load ultimo ID
         public function loadById($id){
 
             //Instancio dentro do metodo a conexao e crio o objeto
@@ -99,18 +102,47 @@
 
             if(count($resultado) > 0){
 
-                $row = $resultado[0];
-
-                $this->setIdUsuario($row['IdUsuario']);
-                $this->setLogin($row['Login']);
-                $this->setSenha($row['Senha']);
-                $this->setDataCadastro($row['DataCadastro']);
+                $this->setData($resultado[0]);
 
             } else {
 
                 throw new Exception("Login e/ou senha inválidos");
 
             }
+
+        }
+
+        //Função de INSERT
+        public function insert(){
+
+            $sql = new Banco();
+
+            $resultado = $sql->select("CALL sp_Usuarios_Insert(:LOGIN, :SENHA)", array(
+                ":LOGIN"=>$this->getLogin(),
+                ":SENHA"=>$this->getSenha()
+            ));
+
+            if(count($resultado) > 0 ){
+
+                $this->setData($resultado[0]);
+
+            }
+
+        }
+
+        public function setData($data){
+
+            $this->setIdUsuario($data['IdUsuario']);
+            $this->setLogin($data['Login']);
+            $this->setSenha($data['Senha']);
+            $this->setDataCadastro( new DateTime($data['DataCadastro']));
+
+        }
+
+        public function __construct($login = "", $senha = ""){
+
+            $this->setLogin($login);
+            $this->setSenha($senha);
 
         }
 
