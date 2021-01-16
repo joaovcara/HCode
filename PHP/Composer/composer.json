@@ -1,0 +1,15 @@
+{
+    "name": "joao/composer",
+    "description": "Curso PHP HCode",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Joao Vitor",
+            "email": "j.vitorcara@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "monolog/monolog":"1.0.*"
+    }
+}
